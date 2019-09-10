@@ -22,7 +22,7 @@ const ProtectedRoute = ({
         }
       })
       .catch(error => {
-        console.log("ERROR: ", error);
+        console.error(`ERROR: ${error}`);
         if (subscribed) {
           setCommunicating(false);
         }

@@ -3,7 +3,6 @@ import { Button } from "react95";
 import { ErrorDisplay } from "../../styles";
 import { InputArea, Loading } from "../../utils";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
 
 export const Login = ({ validateToken, history }) => {
   const [loggingIn, setLoggingIn] = useState(false);
@@ -15,21 +14,28 @@ export const Login = ({ validateToken, history }) => {
     event.preventDefault();
     if (email && password) {
       setLoggingIn(true);
-      axios
-        .post(`${process.env.REACT_APP_ENDPOINT}/api/auth/login`, {
-          email,
-          password
+      fetch(`${process.env.REACT_APP_ENDPOINT}/api/auth/login`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
         })
+      })
+        .then(res => res.json())
         .then(res => {
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("userID", res.data.userID);
-          validateToken(res.data.token).then(() => history.push("/"));
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("userID", res.userID);
+          validateToken(res.token).then(() => history.push("/"));
           setLoggingIn(false);
         })
         .catch(error => {
           setLoggingIn(false);
           setLoginError(error.toString());
-          console.log("ERROR: ", error);
+          console.error(`ERROR: ${error}`);
         });
     } else {
       setLoginError("must fill out required fields to log in");

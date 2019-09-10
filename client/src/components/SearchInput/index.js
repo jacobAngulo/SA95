@@ -48,7 +48,7 @@ function SearchInput() {
           }
         })
         .catch(error => {
-          console.log(`ERROR: ${error}`);
+          console.error(`ERROR: ${error}`);
         });
     } else {
       setSearchResults([]);

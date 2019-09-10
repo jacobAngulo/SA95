@@ -1,7 +1,7 @@
 import React from "react";
 import PostContent from "./components/PostContent";
-import { Window } from "react95";
-import styled from "styled-components";
+// import { Window } from "react95";
+// import styled from "styled-components";
 import { PostContainer } from "../../../../../../styles";
 
 const Post = ({

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import Post from "./components/Post";
 import { Window, WindowContent } from "react95";
 import { Loading } from "../../../../utils";
@@ -11,25 +10,39 @@ const Feed = ({ posts, setPosts }) => {
   useEffect(() => {
     let subscribed = true;
 
-    axios
-      .get(
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      fetch(
         `${process.env.REACT_APP_ENDPOINT}/api/posts/${localStorage.getItem(
           "userID"
-        )}`
+        )}`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            token: token
+          }
+        }
       )
-      .then(res => {
-        if (subscribed) {
-          setPosts(res.data);
-          setCommunicating(false);
-        }
-        // console.log(res);
-      })
-      .catch(error => {
-        if (subscribed) {
-          setCommunicating(false);
-        }
-        console.log("ERROR: ", error);
-      });
+        .then(res => res.json())
+        .then(res => {
+          if (subscribed) {
+            setPosts(res);
+            setCommunicating(false);
+          }
+          // console.log(res);
+        })
+        .catch(error => {
+          if (subscribed) {
+            setCommunicating(false);
+          }
+          console.error(`ERROR: ${error}`);
+        });
+    } else {
+      // TODO: handle no token
+    }
 
     return () => {
       subscribed = false;

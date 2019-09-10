@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
 import { Link, Route, withRouter } from "react-router-dom";
 import Auth from "./components/Auth/Auth";
 import Home from "./components/Home";
@@ -64,20 +63,32 @@ const App = ({ history }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [open, setOpen] = useState(false);
   const validateToken = token => {
-    return axios
-      .post(`${process.env.REACT_APP_ENDPOINT}/api/auth/authentication`, {
-        token: token
+    // return axios
+    return (
+      fetch(`${process.env.REACT_APP_ENDPOINT}/api/users/`, {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token: token
+        })
       })
-      .then(res => {
-        // console.log(res);
-        setAuthenticated(true);
-        return res;
-      })
-      .catch(error => {
-        console.log("ERROR: ", error);
-        setAuthenticated(false);
-        return error;
-      });
+        .then(res => res.json())
+
+        // .post(`${process.env.REACT_APP_ENDPOINT}/api/auth/authentication`, {
+        //   token: token
+        // })
+        .then(res => {
+          // console.log(res);
+          setAuthenticated(true);
+          return res;
+        })
+        .catch(error => {
+          console.log("ERROR: ", error);
+          setAuthenticated(false);
+          return error;
+        })
+    );
   };
 
   const handleLogOut = event => {

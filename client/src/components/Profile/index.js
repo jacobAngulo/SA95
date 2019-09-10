@@ -52,7 +52,7 @@ const Profile = ({ match }) => {
         setFetchingUserData(false);
       })
       .catch(error => {
-        console.log(`ERROR: ${error}`);
+        console.error(`ERROR: ${error}`);
         setFetchingUserData(false);
         setFetchingUserDataError(error.toString());
       });
