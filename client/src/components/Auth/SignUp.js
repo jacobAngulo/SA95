@@ -4,7 +4,7 @@ import { Button } from "react95";
 import { ErrorDisplay } from "../../styles";
 import { InputArea, Loading } from "../../utils";
 
-export const SignUp = ({ validateToken, history }) => {
+export const SignUp = ({ history }) => {
   const [signingUp, setSigningUp] = useState(false);
   const [signUpError, setSignUpError] = useState("");
   const [email, setEmail] = useState("");
@@ -28,17 +28,10 @@ export const SignUp = ({ validateToken, history }) => {
           })
         })
           .then(res => res.json())
-          // axios
-          //   .post(`${process.env.REACT_APP_ENDPOINT}/api/auth/registration`, {
-          //     email,
-          //     password
-          //   })
           .then(res => {
             localStorage.setItem("token", res.token);
             localStorage.setItem("userID", res.userID);
-            validateToken(res.token).then(() =>
-              history.push(`/profile/${res.userID}`)
-            );
+            history.push(`/authenticated/profile/${res.userID}`);
             setSigningUp(false);
           })
           .catch(error => {

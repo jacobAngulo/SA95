@@ -4,7 +4,7 @@ import { ErrorDisplay } from "../../styles";
 import { InputArea, Loading } from "../../utils";
 import { withRouter } from "react-router-dom";
 
-export const Login = ({ validateToken, history }) => {
+export const Login = ({ history }) => {
   const [loggingIn, setLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
@@ -26,11 +26,11 @@ export const Login = ({ validateToken, history }) => {
         })
       })
         .then(res => res.json())
-        .then(res => {
-          localStorage.setItem("token", res.token);
-          localStorage.setItem("userID", res.userID);
-          validateToken(res.token).then(() => history.push("/"));
+        .then(async res => {
+          await localStorage.setItem("token", res.token);
+          await localStorage.setItem("userID", res.userID);
           setLoggingIn(false);
+          return history.push("/authenticated/");
         })
         .catch(error => {
           setLoggingIn(false);

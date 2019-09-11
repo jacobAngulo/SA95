@@ -88,6 +88,7 @@ const Profile = ({ match }) => {
                 />
               </Cutout>
               <WindowContent>
+                <Fieldset label="bio">{userData.bio}</Fieldset>
                 <FollowsSection>
                   <FollowsDisplay to={`/${userData.id}/followers`}>
                     <p>followers: </p>
@@ -98,7 +99,6 @@ const Profile = ({ match }) => {
                     <p>{userData.following.length}</p>
                   </FollowsDisplay>
                 </FollowsSection>
-                <Fieldset label="bio">{userData.bio}</Fieldset>
               </WindowContent>
               <Cutout>
                 {userID === profileID ? (

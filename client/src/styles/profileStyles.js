@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Window, Cutout } from "react95";
+import { Window } from "react95";
 import { Link } from "react-router-dom";
 
 export const ProfileContainer = styled.div`

@@ -6,7 +6,6 @@ const ProtectedRoute = ({
   component: Component,
   authenticated,
   setAuthenticated,
-  validateToken,
   ...rest
 }) => {
   const [communicating, setCommunicating] = useState(true);
@@ -14,19 +13,34 @@ const ProtectedRoute = ({
   useEffect(() => {
     let subscribed = true;
 
-    validateToken(localStorage.getItem("token"))
-      .then(res => {
-        // console.log(res);
-        if (subscribed) {
-          setCommunicating(false);
-        }
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      fetch(`${process.env.REACT_APP_ENDPOINT}/api/auth/authentication`, {
+        method: "POST",
+        mode: "cors",
+        headers: { "Content-Type": "application/json", token: token }
       })
-      .catch(error => {
-        console.error(`ERROR: ${error}`);
-        if (subscribed) {
-          setCommunicating(false);
-        }
-      });
+        .then(res => res.json())
+        .then(res => {
+          console.log(res);
+          if (subscribed) {
+            setAuthenticated(true);
+            setCommunicating(false);
+          }
+        })
+        .catch(error => {
+          console.error(`ERROR: ${error}`);
+          if (subscribed) {
+            setAuthenticated(false);
+            setCommunicating(false);
+          }
+        });
+    } else if (subscribed) {
+      console.error("ERROR: no token in localStorage");
+      setAuthenticated(false);
+      setCommunicating(false);
+    }
 
     return () => {
       subscribed = false;
