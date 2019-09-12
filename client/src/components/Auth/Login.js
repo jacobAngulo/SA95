@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react95";
-import { ErrorDisplay } from "../../styles";
-import { InputArea, Loading } from "../../utils";
+import LoginForm from "./LoginForm";
 import { withRouter } from "react-router-dom";
 
 export const Login = ({ history }) => {
@@ -26,9 +24,9 @@ export const Login = ({ history }) => {
         })
       })
         .then(res => res.json())
-        .then(async res => {
-          await localStorage.setItem("token", res.token);
-          await localStorage.setItem("userID", res.userID);
+        .then(res => {
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("userID", res.userID);
           setLoggingIn(false);
           return history.push("/authenticated/");
         })
@@ -42,33 +40,16 @@ export const Login = ({ history }) => {
     }
   };
 
-  return loggingIn ? (
-    <Loading />
-  ) : (
-    <form onSubmit={handleSubmit}>
-      <InputArea
-        value={email}
-        setValue={setEmail}
-        type="email"
-        name="email: "
-        placeholder="email"
-      />
-      <InputArea
-        value={password}
-        setValue={setPassword}
-        type="password"
-        name="password: "
-        placeholder="password"
-      />
-      {loginError && (
-        <ErrorDisplay>
-          <p>{loginError}</p>
-        </ErrorDisplay>
-      )}
-      <Button fullWidth type="submit">
-        Login
-      </Button>
-    </form>
+  return (
+    <LoginForm
+      loggingIn={loggingIn}
+      handleSubmit={handleSubmit}
+      email={email}
+      setEmail={setEmail}
+      password={password}
+      setPassword={setPassword}
+      loginError={loginError}
+    />
   );
 };
 

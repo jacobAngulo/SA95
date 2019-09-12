@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import { Button } from "react95";
-import { ErrorDisplay } from "../../styles";
-import { InputArea, Loading } from "../../utils";
+import SignUpForm from "./SignUpForm";
 
 export const SignUp = ({ history }) => {
   const [signingUp, setSigningUp] = useState(false);
@@ -47,41 +45,18 @@ export const SignUp = ({ history }) => {
     }
   };
 
-  return signingUp ? (
-    <Loading />
-  ) : (
-    <form onSubmit={handleSubmit}>
-      <InputArea
-        value={email}
-        setValue={setEmail}
-        type="email"
-        name="email: "
-        placeholder="email"
-      />
-      <InputArea
-        value={password}
-        setValue={setPassword}
-        type="password"
-        name="password: "
-        placeholder="password"
-      />
-      <InputArea
-        value={confirmPassword}
-        setValue={setConfirmPassword}
-        type="password"
-        name="confirm password: "
-        placeholder="confirm password"
-      />
-
-      {signUpError && (
-        <ErrorDisplay>
-          <p>{signUpError}</p>
-        </ErrorDisplay>
-      )}
-      <Button fullWidth type="submit">
-        Sign Up
-      </Button>
-    </form>
+  return (
+    <SignUpForm
+      signingUp={signingUp}
+      handleSubmit={handleSubmit}
+      email={email}
+      setEmail={setEmail}
+      password={password}
+      setPassword={setPassword}
+      confirmPassword={confirmPassword}
+      setConfirmPassword={setConfirmPassword}
+      signUpError={signUpError}
+    />
   );
 };
 
