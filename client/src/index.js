@@ -10,7 +10,7 @@ const ResetStyles = createGlobalStyle`
 `;
 
 ReactDOM.render(
-  <Router>
+  <Router forceRefresh={true}>
     <ResetStyles />
     <ThemeProvider theme={themes.water}>
       <App />

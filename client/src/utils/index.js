@@ -1,4 +1,5 @@
 import React from "react";
+import { createBrowserHistory } from "history";
 import { TextField, Hourglass } from "react95";
 import {
   AuthInputAreaContainer,

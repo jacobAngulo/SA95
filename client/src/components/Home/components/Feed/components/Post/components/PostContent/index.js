@@ -70,51 +70,72 @@ const PostOptionsDropdownMenu = ({
   };
 
   const handleEditPostSubmit = () => {
-    console.log("here");
-    if (edits.length) {
-      setEditing(true);
-      fetch(`${process.env.REACT_APP_ENDPOINT}/api/posts/${postID}`, {
-        method: "PUT",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: postID,
-          user_id: userID,
-          content: edits,
-          created_at: createdAt
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      if (edits.length) {
+        setEditing(true);
+        fetch(`${process.env.REACT_APP_ENDPOINT}/api/posts/${postID}`, {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            token: token
+          },
+          body: JSON.stringify({
+            id: postID,
+            user_id: userID,
+            content: edits,
+            created_at: createdAt
+          })
         })
-      })
-        .then(res => res.json())
-        .then(res => {
-          console.log(res);
-          setDisplayedContent(res.content);
-          setEditing(false);
-          setOpen(false);
-          setEditPostModal(false);
-        })
-        .catch(error => {
-          console.log(`ERROR: ${error}`);
-          setEditingError(error.toString());
-          setEditing(false);
-        });
+          .then(res => res.json())
+          .then(res => {
+            console.log(res);
+            setDisplayedContent(res.content);
+            setEditing(false);
+            setOpen(false);
+            setEditPostModal(false);
+          })
+          .catch(error => {
+            console.log(`ERROR: ${error}`);
+            setEditingError(error.toString());
+            setEditing(false);
+          });
+      } else {
+        setEditingError("your post can not be empty");
+      }
     } else {
-      setEditingError("your post can not be empty");
+      // TODO: handle no token in localStorage
     }
   };
 
   const handleDeletePost = () => {
     setDeleting(true);
-    fetch(`${process.env.REACT_APP_ENDPOINT}/api/posts/${postID}`, {
-      method: "DELETE"
-    })
-      .then(() => {
-        setOpen(false);
-        setPosts(posts.filter(post => post.post_id !== postID && post));
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      fetch(`${process.env.REACT_APP_ENDPOINT}/api/posts/${postID}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          token: token
+        }
       })
-      .catch(error => {
-        setDeletingError(error.toString());
-        setDeleting(false);
-      });
+        .then(res => res.json())
+        .then(() => {
+          setOpen(false);
+          setPosts(posts.filter(post => post.post_id !== postID && post));
+        })
+        .catch(error => {
+          setDeletingError(error.toString());
+          setDeleting(false);
+          console.error(`ERROR: ${error}`);
+        });
+    } else {
+      // TODO: handle no token in localStorage
+    }
   };
 
   return (

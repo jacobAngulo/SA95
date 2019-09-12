@@ -34,14 +34,30 @@ function hashPassword(req, res, next) {
 }
 
 function validateToken(req, res, next) {
-  if (req.body.token) {
-    const token = req.body.token;
+  const token = req.headers.token;
+  if (token) {
     jwt.verify(token, jwtSecret, (error, decodedToken) => {
       if (error) {
-        res.status(401).json({ message: "Invalid Credentials" });
-      } else {
+        res.status(401).json({ message: error.toString() });
+      } else if (decodedToken.exp > Math.round(Date.now() / 1000)) {
         req.decodedJwt = decodedToken;
+        // Users.findByEmail(req.decodedJwt.email).then(user => {
+        //   if (user) {
+        //     const token = Auth.generateToken(user);
+        //     res.status(200).json({
+        //       token,
+        //       userID: user.id
+        //     });
+        //   } else {
+        //     res.status(401).json({ message: "invalid token" });
+        //   }
+        // });
         next();
+      } else {
+        res.status(401).json({
+          message:
+            "jsonwebtoken has expired, please login again to receive a new one"
+        });
       }
     });
   } else {

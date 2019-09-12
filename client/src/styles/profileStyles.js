@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Window, Cutout } from "react95";
+import { Window } from "react95";
 import { Link } from "react-router-dom";
 
 export const ProfileContainer = styled.div`
@@ -25,7 +25,7 @@ export const ProfileHeader = styled(Window)``;
 export const ProfileBannerContainer = styled(Window)`
   margin-top: 100px;
   width: max-content;
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     margin-top: 47px;
     width: 100vw;
   }
@@ -50,7 +50,7 @@ export const ProfileBanner = styled.img`
   display: block;
   object-fit: cover;
 
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     width: 100%;
   }
 `;

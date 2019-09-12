@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import { Button } from "react95";
-import { ErrorDisplay } from "../../styles";
-import { InputArea, Loading } from "../../utils";
+import LoginForm from "./LoginForm";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
 
-export const Login = ({ validateToken, history }) => {
+export const Login = ({ history }) => {
   const [loggingIn, setLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
@@ -15,54 +12,44 @@ export const Login = ({ validateToken, history }) => {
     event.preventDefault();
     if (email && password) {
       setLoggingIn(true);
-      axios
-        .post(`${process.env.REACT_APP_ENDPOINT}/api/auth/login`, {
-          email,
-          password
+      fetch(`${process.env.REACT_APP_ENDPOINT}/api/auth/login`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
         })
+      })
+        .then(res => res.json())
         .then(res => {
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("userID", res.data.userID);
-          validateToken(res.data.token).then(() => history.push("/"));
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("userID", res.userID);
           setLoggingIn(false);
+          return history.push("/authenticated/");
         })
         .catch(error => {
           setLoggingIn(false);
           setLoginError(error.toString());
-          console.log("ERROR: ", error);
+          console.error(`ERROR: ${error}`);
         });
     } else {
       setLoginError("must fill out required fields to log in");
     }
   };
 
-  return loggingIn ? (
-    <Loading />
-  ) : (
-    <form onSubmit={handleSubmit}>
-      <InputArea
-        value={email}
-        setValue={setEmail}
-        type="email"
-        name="email: "
-        placeholder="email"
-      />
-      <InputArea
-        value={password}
-        setValue={setPassword}
-        type="password"
-        name="password: "
-        placeholder="password"
-      />
-      {loginError && (
-        <ErrorDisplay>
-          <p>{loginError}</p>
-        </ErrorDisplay>
-      )}
-      <Button fullWidth type="submit">
-        Login
-      </Button>
-    </form>
+  return (
+    <LoginForm
+      loggingIn={loggingIn}
+      handleSubmit={handleSubmit}
+      email={email}
+      setEmail={setEmail}
+      password={password}
+      setPassword={setPassword}
+      loginError={loginError}
+    />
   );
 };
 

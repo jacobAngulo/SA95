@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import axios from "axios";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import { Button, Cutout, Divider } from "react95";
@@ -17,25 +16,39 @@ const CommentsSection = ({ postID }) => {
   useEffect(() => {
     let subscribed = true;
 
-    axios
-      .get(`${process.env.REACT_APP_ENDPOINT}/api/comments/${postID}`)
-      .then(res => {
-        if (subscribed) {
-          setComments(res.data);
-          setFetchingCommentsStatus(false);
-          if (res.data.length >= 5) {
-            setRenderedComments(5);
-          } else {
-            setRenderedComments(res.data.length);
-          }
-          // console.log(res);
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      fetch(`${process.env.REACT_APP_ENDPOINT}/api/comments/${postID}`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          token: token
         }
       })
-      .catch(error => {
-        if (subscribed) {
-          console.log("ERROR: ", error);
-        }
-      });
+        .then(res => res.json())
+        .then(res => {
+          if (subscribed) {
+            setComments(res);
+            setFetchingCommentsStatus(false);
+            if (res.length >= 5) {
+              setRenderedComments(5);
+            } else {
+              setRenderedComments(res.length);
+            }
+            // console.log(res);
+          }
+        })
+        .catch(error => {
+          if (subscribed) {
+            console.error("ERROR: ", error);
+          }
+        });
+    } else {
+      // TODO: handle no token in localStorage
+    }
+
     return () => {
       subscribed = false;
     };

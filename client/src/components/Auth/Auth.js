@@ -4,7 +4,7 @@ import { AuthContainer, AuthWindow } from "../../styles";
 import Login from "./Login";
 import SignUp from "./SignUp";
 
-function Auth({ validateToken }) {
+function Auth() {
   const [tab, setTab] = useState(0);
   return (
     <AuthContainer>
@@ -17,12 +17,12 @@ function Auth({ validateToken }) {
           </Tabs>
           {tab === 0 && (
             <TabBody>
-              <Login validateToken={validateToken} />
+              <Login />
             </TabBody>
           )}
           {tab === 1 && (
             <TabBody>
-              <SignUp validateToken={validateToken} />
+              <SignUp />
             </TabBody>
           )}
         </WindowContent>

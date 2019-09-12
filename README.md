@@ -2,6 +2,8 @@
 
 love posting about stuff, hate the rounded borders of the modern web, this is the app for you
 
+built 100% on my own this app was built to demonstrate the fundamentals of SPA's
+
 steps from root
 
 `1:`

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import {
   ProfileContainer,
   ProfileHeaderContainer,
@@ -13,51 +13,13 @@ import {
 import { WindowContent, Cutout, Fieldset, Button, WindowHeader } from "react95";
 import { Loading } from "../../utils";
 
-const Profile = ({ match }) => {
-  const profileID = match.params.id;
-  const userID = localStorage.getItem("userID");
-  const [userData, setUserData] = useState({});
-  const [fetchingUserData, setFetchingUserData] = useState(true);
-  const [fetchingUserDataError, setFetchingUserDataError] = useState("");
-  // const [updatingContent, setUpdatingContent] = useState(false);
-  // const [updatingContentError, setUpdatingContentError] = useState("");
-  // const [updatingProfileImage, setUpdatingProfileImage] = useState(false);
-  // const [updatingProfileImageError, setUpdatingProfileImageError] = useState(
-  //   ""
-  // );
-  // const [updatingBannerImage, setUpdatingBannerImage] = useState(false);
-  // const [updatingBannerImageError, setUpdatingBannerImageError] = useState("");
-  // const [updatingFollowingStatus, setUpdatingFollowingStatus] = useState(false);
-  // const [
-  //   updatingFollowingStatusError,
-  //   setUpdatingFollowingStatusError
-  // ] = useState("");
-
-  useEffect(() => {
-    setFetchingUserData(true);
-    setFetchingUserDataError(false);
-    fetch(`${process.env.REACT_APP_ENDPOINT}/api/users/profile-data`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-      body: JSON.stringify({
-        userID: userID,
-        subjectID: profileID
-      })
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        setUserData(res);
-        setFetchingUserData(false);
-      })
-      .catch(error => {
-        console.log(`ERROR: ${error}`);
-        setFetchingUserData(false);
-        setFetchingUserDataError(error.toString());
-      });
-  }, [profileID]);
-
+function ProfilePage({
+  userData,
+  fetchingUserData,
+  fetchingUserDataError,
+  userID,
+  profileID
+}) {
   return (
     <ProfileContainer>
       <ProfileHeaderContainer>
@@ -88,6 +50,7 @@ const Profile = ({ match }) => {
                 />
               </Cutout>
               <WindowContent>
+                <Fieldset label="bio">{userData.bio}</Fieldset>
                 <FollowsSection>
                   <FollowsDisplay to={`/${userData.id}/followers`}>
                     <p>followers: </p>
@@ -98,7 +61,6 @@ const Profile = ({ match }) => {
                     <p>{userData.following.length}</p>
                   </FollowsDisplay>
                 </FollowsSection>
-                <Fieldset label="bio">{userData.bio}</Fieldset>
               </WindowContent>
               <Cutout>
                 {userID === profileID ? (
@@ -115,6 +77,6 @@ const Profile = ({ match }) => {
       </ProfileHeaderContainer>
     </ProfileContainer>
   );
-};
+}
 
-export default Profile;
+export default ProfilePage;

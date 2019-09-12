@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Window, TabBody } from "react95";
-import bgGif from "../assets/background.gif";
 
 export const AuthInputAreaContainer = styled.div`
   display: flex;
@@ -16,10 +15,12 @@ export const AuthContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  background-image: url(${bgGif});
+  background-color: #008080;
+
+  /* background-image: url();
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 `;
 
 export const AuthWindow = styled(Window)`

@@ -63,11 +63,11 @@ function authenticateUser(req, res) {
           userID: user.id
         });
       } else {
-        res.status(403).json({ message: "invalid token" });
+        res.status(401).json({ message: "invalid token" });
       }
     });
   } else {
-    res.status(403).json({
+    res.status(401).json({
       message:
         "jsonwebtoken has expired, please login again to receive a new one"
     });

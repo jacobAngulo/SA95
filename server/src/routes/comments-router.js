@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const { validateToken } = require("../middleware/auth-middleware");
+
 const {
   addComment,
   getComments,
@@ -10,9 +12,9 @@ const {
 
 router
   .route("/:id")
-  .get(getComments)
-  .post(addComment)
-  .put(updateComment)
-  .delete(deleteComment);
+  .get(validateToken, getComments)
+  .post(validateToken, addComment)
+  .put(validateToken, updateComment)
+  .delete(validateToken, deleteComment);
 
 module.exports = router;
