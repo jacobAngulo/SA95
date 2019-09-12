@@ -1,10 +1,11 @@
 import React, { useState, useEffect, Fragment } from "react";
 import Post from "./components/Post";
+import { withRouter } from "react-router-dom";
 import { Window, WindowContent } from "react95";
 import { Loading } from "../../../../utils";
 import { PostDivider } from "../../../../styles";
 
-const Feed = ({ posts, setPosts }) => {
+const Feed = ({ posts, setPosts, history }) => {
   const [communicating, setCommunicating] = useState(true);
 
   useEffect(() => {
@@ -26,22 +27,30 @@ const Feed = ({ posts, setPosts }) => {
           }
         }
       )
-        .then(res => res.json())
+        .then(res => {
+          if (res.status === 401) {
+            console.error(`ERROR: ${res}`);
+            history.push("/");
+          } else {
+            return res.json();
+          }
+        })
         .then(res => {
           if (subscribed) {
             setPosts(res);
             setCommunicating(false);
           }
-          // console.log(res);
         })
         .catch(error => {
           if (subscribed) {
             setCommunicating(false);
+            setPosts([]);
           }
           console.error(`ERROR: ${error}`);
+          history.push("/");
         });
     } else {
-      // TODO: handle no token
+      history.push("/");
     }
 
     return () => {
@@ -86,4 +95,4 @@ const Feed = ({ posts, setPosts }) => {
   );
 };
 
-export default Feed;
+export default withRouter(Feed);

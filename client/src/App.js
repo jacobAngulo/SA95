@@ -1,14 +1,22 @@
-import React from "react";
-import { Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Switch } from "react-router-dom";
 import Auth from "./components/Auth/Auth";
 import LoggedInView from "./LoggedInView";
-const App = () => {
+import { withRouter } from "react-router-dom";
+
+const App = ({ location }) => {
+  console.log(location);
+
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location.pathname]);
+
   return (
-    <div>
-      <Route path="/auth" render={props => <Auth {...props} />} />
+    <Switch>
+      <Route exact path="/" render={props => <Auth {...props} />} />
       <Route path="/authenticated/" component={LoggedInView} />
-    </div>
+    </Switch>
   );
 };
 
-export default App;
+export default withRouter(App);

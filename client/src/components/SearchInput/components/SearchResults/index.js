@@ -7,23 +7,23 @@ function SearchResults({
   setSearchInputActiveStatus,
   setSearchField
 }) {
-  const node = useRef();
+  const searchResultsNode = useRef();
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("mousedown", searchResultsClickListener);
     return () => {
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("mousedown", searchResultsClickListener);
     };
   }, []);
 
-  const handleClick = event => {
-    if (!node.current.contains(event.target)) {
+  const searchResultsClickListener = event => {
+    if (!searchResultsNode.current.contains(event.target)) {
       setSearchInputActiveStatus(false);
     }
   };
 
   return (
-    <div ref={node}>
+    <div ref={searchResultsNode}>
       <List fullWidth>
         {searchResults.map(user => (
           <Link
