@@ -18,17 +18,18 @@ function getPosts(user_id) {
       "users.full_name",
       "users.profile_image_url"
     )
-    .distinct()
     .from("posts")
     .join("follows", "posts.user_id", "follows.following_id")
     .join("users", "users.id", "posts.user_id")
-    .where({ "posts.user_id": user_id })
-    .orWhere({ "follows.user_id": user_id })
-    .orderBy("posts.id", "desc");
+    .where("posts.user_id", user_id)
+    .orWhere("follows.user_id", user_id)
+    .orderBy("posts.id", "desc")
+    .distinct();
 }
+
 function getUsersPosts(user_id) {
   return db("posts")
-    .where({ "posts.user_id": user_id })
+    .where("posts.user_id", user_id)
     .orderBy("posts.id", "desc");
 }
 
@@ -51,13 +52,13 @@ function findByPostID(id) {
     )
     .from("posts")
     .join("users", "users.id", "posts.user_id")
-    .where({ "posts.id": id })
+    .where("posts.id", id)
     .first();
 }
 
 function updatePost(id, updatedPost) {
   return db("posts")
-    .where({ id: id })
+    .where("posts.id", id)
     .update(updatedPost)
     .then(() => findByPostID(id))
     .catch(error => {

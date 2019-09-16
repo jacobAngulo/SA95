@@ -21,7 +21,7 @@ exports.up = function(knex, Promise) {
       .onUpdate("CASCADE");
 
     comments
-      .integer("created_at")
+      .bigInteger("created_at")
       .unsigned()
       .notNullable();
 

@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
       .onUpdate("CASCADE");
 
     posts
-      .integer("created_at")
+      .bigInteger("created_at")
       .unsigned()
       .notNullable();
 
