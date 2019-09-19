@@ -9,8 +9,8 @@ const server = express();
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(parser.json());
-server.use("/api", Router);
 server.use(cors());
+server.use("/api", Router);
 
 server.get("/", (req, res) => {
   res.send("welcome to the /");
