@@ -9,6 +9,7 @@ export const Login = ({ history }) => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = event => {
+    console.log("logging in");
     event.preventDefault();
     if (email && password) {
       setLoggingIn(true);
@@ -16,7 +17,11 @@ export const Login = ({ history }) => {
         method: "POST",
         mode: "cors",
         headers: {
-          "Content-Type": "application/json"
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "Content-Type": "application/json",
+          // Origin: process.env.REACT_APP_ENDPOINT,
+          "X-Requested-With": "XMLHttpRequest"
         },
         body: JSON.stringify({
           email: email,
