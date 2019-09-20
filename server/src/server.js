@@ -6,10 +6,10 @@ const parser = require("body-parser");
 
 const server = express();
 
+server.use(cors());
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(parser.json());
-server.use(cors());
 server.use("/api", Router);
 
 server.get("/", (req, res) => {
