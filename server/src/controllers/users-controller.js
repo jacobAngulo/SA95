@@ -9,12 +9,8 @@ module.exports = {
 
 function fuzzySearch(req, res) {
   const { string } = req.body;
-
-  console.log(req.body);
-
   Users.findByFuzzySearch(string)
     .then(results => {
-      console.log(results);
       res.status(200).json({
         results: results,
         searched_string: string

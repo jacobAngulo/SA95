@@ -13,8 +13,12 @@ const App = ({ location }) => {
 
   return (
     <Switch>
-      <Route exact path="/" render={props => <Auth {...props} />} />
-      <Route path="/authenticated/" component={LoggedInView} />
+      <Route exact path="/">
+        <Auth />
+      </Route>
+      <Route path="/authenticated/" component={LoggedInView}>
+        <LoggedInView />
+      </Route>
     </Switch>
   );
 };

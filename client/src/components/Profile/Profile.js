@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, useParams } from "react-router-dom";
 import ProfilePage from "./ProfilePage";
 
-const Profile = ({ match, history }) => {
-  const profileID = match.params.id;
+const Profile = ({ history }) => {
+  const { id: profileID } = useParams();
   const userID = localStorage.getItem("userID");
   const [userData, setUserData] = useState({});
   const [fetchingUserData, setFetchingUserData] = useState(true);
@@ -16,11 +16,11 @@ const Profile = ({ match, history }) => {
   // );
   // const [updatingBannerImage, setUpdatingBannerImage] = useState(false);
   // const [updatingBannerImageError, setUpdatingBannerImageError] = useState("");
-  // const [updatingFollowingStatus, setUpdatingFollowingStatus] = useState(false);
-  // const [
-  //   updatingFollowingStatusError,
-  //   setUpdatingFollowingStatusError
-  // ] = useState("");
+  const [updatingFollowingStatus, setUpdatingFollowingStatus] = useState(false);
+  const [
+    updatingFollowingStatusError,
+    setUpdatingFollowingStatusError
+  ] = useState("");
 
   useEffect(() => {
     setFetchingUserData(true);
@@ -66,6 +66,10 @@ const Profile = ({ match, history }) => {
       fetchingUserDataError={fetchingUserDataError}
       userID={userID}
       profileID={profileID}
+      updatingFollowingStatus={updatingFollowingStatus}
+      setUpdatingFollowingStatus={setUpdatingFollowingStatus}
+      updatingFollowingStatusError={updatingFollowingStatusError}
+      setUpdatingFollowingStatusError={setUpdatingFollowingStatusError}
     />
   );
 };
