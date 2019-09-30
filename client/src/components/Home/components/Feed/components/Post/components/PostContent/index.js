@@ -141,7 +141,7 @@ const PostOptionsDropdownMenu = ({
   return (
     <PostOptionsWrapper ref={postOptionsWrapperNode}>
       <List horizontalAlign="right" verticalAlign="bottom">
-        <Link to={`/profile/${userID}`}>
+        <Link to={`/authenticated/profile/${userID}`}>
           <ListItem size="sm" disabled={editPostModal || deletePostModal}>
             <span role="img" aria-label="link symbol">
               🔗
@@ -294,7 +294,7 @@ const PostContent = ({
       <PostHeader>
         <PostInfo>
           <UserAvatar src={profileImageUrl} alt={`${name}'s profile picture`} />
-          <Link to={`/profile/${userID}`}>{name}</Link>
+          <Link to={`/authenticated/profile/${userID}`}>{name}</Link>
         </PostInfo>
         <div>
           <PostOptionsButton

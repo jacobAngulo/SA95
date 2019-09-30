@@ -20,7 +20,7 @@ const Comment = ({
     <WindowHeader>
       <PostInfo>
         <UserAvatar src={profileImageUrl} alt={`${name}'s profile picture`} />
-        <Link to={`/profile/${userID}`}>{name}</Link>
+        <Link to={`/authenticated/profile/${userID}`}>{name}</Link>
       </PostInfo>
     </WindowHeader>
     <WindowContent>

@@ -3,8 +3,9 @@ import { withRouter, useParams } from "react-router-dom";
 import ProfilePage from "./ProfilePage";
 
 const Profile = ({ history }) => {
-  const { id: profileID } = useParams();
-  const userID = localStorage.getItem("userID");
+  let { id: profileID } = useParams();
+  profileID = parseInt(profileID);
+  const userID = parseInt(localStorage.getItem("userID"));
   const [userData, setUserData] = useState({});
   const [fetchingUserData, setFetchingUserData] = useState(true);
   const [fetchingUserDataError, setFetchingUserDataError] = useState("");
@@ -59,6 +60,80 @@ const Profile = ({ history }) => {
       });
   }, [profileID]);
 
+  const followUser = () => {
+    setUpdatingFollowingStatus(true);
+    setUpdatingFollowingStatusError("");
+
+    const token = localStorage.getItem("token");
+
+    fetch(`${process.env.REACT_APP_ENDPOINT}/api/follows`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: token
+      },
+      mode: "cors",
+      body: JSON.stringify({
+        userID: userID,
+        subjectID: profileID
+      })
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        setUserData({
+          ...userData,
+          isFollowing: true,
+          followers: [...userData.followers, res.newFollow]
+        });
+        setUpdatingFollowingStatus(false);
+      })
+      .catch(error => {
+        console.error(`ERROR: ${error}`);
+        setUpdatingFollowingStatus(false);
+        setUpdatingFollowingStatusError(error.toString());
+      });
+  };
+
+  const unFollowUser = () => {
+    setUpdatingFollowingStatus(true);
+    setUpdatingFollowingStatusError("");
+
+    const token = localStorage.getItem("token");
+
+    const { id: followID } = userData.followers.find(
+      follower => follower.user_id === userID
+    );
+
+    console.log(followID);
+
+    fetch(`${process.env.REACT_APP_ENDPOINT}/api/follows/${followID}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        token: token
+      },
+      mode: "cors"
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        setUserData({
+          ...userData,
+          isFollowing: false,
+          followers: userData.followers.filter(
+            follower => follower.id !== followID
+          )
+        });
+        setUpdatingFollowingStatus(false);
+      })
+      .catch(error => {
+        console.error(`ERROR: ${error}`);
+        setUpdatingFollowingStatus(false);
+        setUpdatingFollowingStatusError(error.toString());
+      });
+  };
+
   return (
     <ProfilePage
       userData={userData}
@@ -66,10 +141,10 @@ const Profile = ({ history }) => {
       fetchingUserDataError={fetchingUserDataError}
       userID={userID}
       profileID={profileID}
+      followUser={followUser}
+      unFollowUser={unFollowUser}
       updatingFollowingStatus={updatingFollowingStatus}
-      setUpdatingFollowingStatus={setUpdatingFollowingStatus}
       updatingFollowingStatusError={updatingFollowingStatusError}
-      setUpdatingFollowingStatusError={setUpdatingFollowingStatusError}
     />
   );
 };

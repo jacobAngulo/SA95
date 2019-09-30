@@ -16,7 +16,7 @@ const deleteFollow = (req, res) => {
   const { id } = req.params;
   Follows.deleteFollow(id)
     .then(() => {
-      res.status(203).json({ message: "follow sccesfully removed from db" });
+      res.status(203).json({ message: "follow successfully removed from db" });
     })
     .catch(error => {
       console.log(`ERROR: ${error}`);

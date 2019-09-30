@@ -40,7 +40,12 @@ async function getSubjectData(userID, subjectID) {
     .andWhere("following_id", subjectID);
 
   const followers = await db
-    .select("users.full_name", "users.profile_image_url", "users.id")
+    .select(
+      "users.full_name",
+      "users.profile_image_url",
+      "follows.user_id",
+      "follows.id"
+    )
     .from("users")
     .join("follows", "follows.user_id", "users.id")
     .where("follows.following_id", subjectID)

@@ -18,7 +18,9 @@ function ProfilePage({
   fetchingUserData,
   fetchingUserDataError,
   userID,
-  profileID
+  profileID,
+  followUser,
+  unFollowUser
 }) {
   return (
     <ProfileContainer>
@@ -66,9 +68,13 @@ function ProfilePage({
                 {userID === profileID ? (
                   <Button fullWidth>edit profile</Button>
                 ) : userData.isFollowing ? (
-                  <Button fullWidth>stop following</Button>
+                  <Button fullWidth onClick={unFollowUser}>
+                    stop following
+                  </Button>
                 ) : (
-                  <Button fullWidth>follow</Button>
+                  <Button fullWidth onClick={followUser}>
+                    follow
+                  </Button>
                 )}
               </Cutout>
             </ProfileImageContainer>

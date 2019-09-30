@@ -95,8 +95,12 @@ const LoggedInView = ({ history }) => {
         </StyledAppBar>
       )}
 
-      <Route exact path="/authenticated/" component={Home} />
-      <Route path="/authenticated/profile/:id" component={Profile} />
+      <Route exact path="/authenticated/">
+        <Home />
+      </Route>
+      <Route path="/authenticated/profile/:id/">
+        <Profile />
+      </Route>
     </div>
   );
 };
