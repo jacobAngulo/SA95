@@ -39,7 +39,7 @@ function ProfilePage({
               </WindowHeader>
               <Cutout>
                 <ProfileBanner
-                  src={userData.profile_banner_image_url}
+                  src={userData.banner_image_url}
                   alt={`${userData.full_name}'s banner`}
                 />
               </Cutout>

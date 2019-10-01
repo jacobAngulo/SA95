@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
 
     users.string("full_name", 60);
 
-    users.string("profile_banner_image_url");
+    users.string("banner_image_url");
 
     users.string("profile_image_url");
 

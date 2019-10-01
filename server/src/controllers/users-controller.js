@@ -1,7 +1,8 @@
 const Users = require("../data/helpers/users-helper");
 
 module.exports = {
-  updateUserProfilePicture,
+  updateProfileImage,
+  updateBannerImage,
   getUserByID,
   getSubjectData,
   fuzzySearch
@@ -46,8 +47,8 @@ function getSubjectData(req, res) {
     });
 }
 
-function updateUserProfilePicture(req, res) {
-  Users.profileImageUpload.single("image")(req, res, error => {
+function updateProfileImage(req, res) {
+  Users.imageUpload.single("image")(req, res, error => {
     const profileImageUrl = req.file.location;
     Users.findByID(req.params.id)
       .then(user => {
@@ -55,6 +56,31 @@ function updateUserProfilePicture(req, res) {
         Users.updateUser(req.params.id, updatedUser)
           .then(userWithUpdatedProfileImageUrl => {
             res.status(202).json(userWithUpdatedProfileImageUrl);
+          })
+          .catch(error => {
+            console.log(`ERROR: ${error}`);
+            res.status(500).json(error);
+          });
+      })
+      .catch(error => {
+        console.log(`ERROR: ${error}`);
+        res.status(500).json(error);
+      });
+  });
+}
+
+function updateBannerImage(req, res) {
+  Users.imageUpload.single("image")(req, res, error => {
+    const bannerImageUrl = req.file.location;
+    Users.findByID(req.params.id)
+      .then(user => {
+        const updatedUser = {
+          ...user,
+          banner_image_url: bannerImageUrl
+        };
+        Users.updateUser(req.params.id, updatedUser)
+          .then(userWithUpdatedBannerImageUrl => {
+            res.status(202).json(userWithUpdatedBannerImageUrl);
           })
           .catch(error => {
             console.log(`ERROR: ${error}`);

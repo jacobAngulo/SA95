@@ -4,7 +4,7 @@ exports.seed = function(knex, Promise) {
       email: "jacob1angulo@gmail.com",
       password: "$2a$05$3KA3WH/rGpib/OY4gcC/m.TINKwomxSTBmNVmpdAIFSijpAk/2vLK",
       full_name: "Jacob Angulo",
-      profile_banner_image_url:
+      banner_image_url:
         "https://social-app-profile-pictures.s3.amazonaws.com/1567544109007",
       profile_image_url:
         "https://social-app-profile-pictures.s3.amazonaws.com/1565739673480",
@@ -14,7 +14,7 @@ exports.seed = function(knex, Promise) {
       email: "ellie@email.com",
       password: "$2a$05$3KA3WH/rGpib/OY4gcC/m.TINKwomxSTBmNVmpdAIFSijpAk/2vLK",
       full_name: "Elizabeth Angulo",
-      profile_banner_image_url:
+      banner_image_url:
         "https://social-app-profile-pictures.s3.amazonaws.com/1567544109007",
       profile_image_url:
         "https://social-app-profile-pictures.s3.amazonaws.com/1565740955062",
@@ -24,7 +24,7 @@ exports.seed = function(knex, Promise) {
       email: "david@email.com",
       password: "$2a$05$3KA3WH/rGpib/OY4gcC/m.TINKwomxSTBmNVmpdAIFSijpAk/2vLK",
       full_name: "David Angulo",
-      profile_banner_image_url:
+      banner_image_url:
         "https://social-app-profile-pictures.s3.amazonaws.com/1567544109007",
       profile_image_url:
         "https://social-app-profile-pictures.s3.amazonaws.com/1565741004256",
@@ -34,7 +34,7 @@ exports.seed = function(knex, Promise) {
       email: "shelley@email.com",
       password: "$2a$05$3KA3WH/rGpib/OY4gcC/m.TINKwomxSTBmNVmpdAIFSijpAk/2vLK",
       full_name: "Shelley Teehan",
-      profile_banner_image_url:
+      banner_image_url:
         "https://social-app-profile-pictures.s3.amazonaws.com/1567544109007",
       profile_image_url:
         "https://social-app-profile-pictures.s3.amazonaws.com/1565741043733",

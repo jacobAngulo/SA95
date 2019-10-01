@@ -30,7 +30,7 @@ async function getSubjectData(userID, subjectID) {
       "users.profile_image_url",
       "users.bio",
       "users.full_name",
-      "users.profile_banner_image_url"
+      "users.banner_image_url"
     )
     .from("users")
     .where("users.id", subjectID);
@@ -64,17 +64,6 @@ async function getSubjectData(userID, subjectID) {
     followers: followers,
     following: following
   };
-  // return db
-  //   .select("users.profile_image_url", "users.bio", "users.full_name")
-  //   .from("users")
-  //   .where("users.id", userID)
-  //   .union([
-  //     db
-  //       .select("follows.following_id")
-  //       .from("follows")
-  //       .where("follows.user_id", userID)
-  //       .andWhere("follows.following_id", subjectID)
-  //   ]);
 }
 
 function findByID(id) {
@@ -104,7 +93,7 @@ const s3 = new aws.S3({
   region: "us-east-1"
 });
 
-const profileImageUpload = multer({
+const imageUpload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.AWS_BUCKET,
@@ -125,5 +114,5 @@ module.exports = {
   findByID,
   getSubjectData,
   updateUser,
-  profileImageUpload
+  imageUpload
 };
