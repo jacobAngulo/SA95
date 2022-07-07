@@ -6,7 +6,7 @@
     "@react95/core": "^2.3.1",
     "dotenv": "^8.0.0",
     "formik": "^1.5.8",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
